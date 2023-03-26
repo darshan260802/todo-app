@@ -1,0 +1,40 @@
+<div class="container-auth">
+  <form [formGroup]="UserForm">
+    <tui-island>
+      <span class="tui-text_h6"
+        >Login
+        <tui-toggle size="l" formControlName="isSignup"></tui-toggle>
+        Signup</span
+      >
+      <h1 class="tui-text_h4">
+        {{ UserForm.get("isSignup")?.value ? "Signup" : "Login" }}
+      </h1>
+      <tui-input
+        formControlName="name"
+        *ngIf="UserForm.get('isSignup')?.value"
+        [@tuiHeightCollapse]="getAnimation(200)"
+      >
+        Name
+        <input type="text" tuiTextfield />
+      </tui-input>
+      <tui-input formControlName="email">
+        Email
+        <input type="email" tuiTextfield />
+      </tui-input>
+      <tui-input-password formControlName="password">
+        Password
+        <input type="password" tuiTextfield />
+      </tui-input-password>
+      <tui-checkbox-block
+        contentAlign="left"
+        size="s"
+        formControlName="remember"
+      >
+        Remeber Me
+      </tui-checkbox-block>
+      <button (click)="handleSubmit()" tuiButton [showLoader]="isLoading" >
+        {{ UserForm.get("isSignup")?.value ? "Signup" : "Login" }}
+      </button>
+    </tui-island>
+  </form>
+</div>

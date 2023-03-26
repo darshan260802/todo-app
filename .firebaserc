@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-firebase-test-001": {
+      "hosting": {
+        "note-plus": [
+          "angular-firebase-test-001"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-firebase-test-001"
+  }
+}

@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// Stopping router-outlet from counting as dom element
+router-outlet{
+    display: none;
+}
+
+.wrapper{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
