@@ -1,7 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { tuiPure } from '@taiga-ui/cdk';
-import { TuiDurationOptions, tuiFadeIn, tuiHeightCollapse } from '@taiga-ui/core';
+import {
+  TuiAlertService,
+  TuiDurationOptions,
+  tuiFadeIn,
+  tuiHeightCollapse,
+  TuiNotification,
+} from '@taiga-ui/core';
 import { AuthService } from 'src/app/Shared/auth.service';
 
 @Component({
@@ -11,47 +17,93 @@ import { AuthService } from 'src/app/Shared/auth.service';
   animations: [tuiHeightCollapse, tuiFadeIn],
 })
 export class AuthComponent {
-  isLoading:boolean = false;
-  
-  constructor(private fb:FormBuilder, private authProvider:AuthService) {}
+  isLoading: boolean = false;
 
-
-  
+  constructor(
+    private fb: FormBuilder,
+    private authProvider: AuthService,
+    @Inject(TuiAlertService) private readonly alertService: TuiAlertService
+  ) {}
 
   UserForm = this.fb.group({
     name: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
-    remember: new FormControl(false),
+    remember: new FormControl(true),
     isSignup: new FormControl(false),
   });
 
-
   // Animation Control
   @tuiPure
-    getAnimation(duration: number): TuiDurationOptions {
-        return {value: '', params: {duration}};
-    }
+  getAnimation(duration: number): TuiDurationOptions {
+    return { value: '', params: { duration } };
+  }
 
   // handleSubmit
-  async handleSubmit(){
-    if(this.UserForm.get('isSignup')?.value){
+  async handleSubmit() {
+    if (this.UserForm.get('isSignup')?.value) {
       const user = {
-        name: this.UserForm.get('name')?.value as string ,
-        email: this.UserForm.get('email')?.value as string ,
-        password: this.UserForm.get('password')?.value as string ,
-      }
+        name: this.UserForm.get('name')?.value as string,
+        email: this.UserForm.get('email')?.value as string,
+        password: this.UserForm.get('password')?.value as string,
+      };
 
-      if(Object.values(user).filter(data => !data?.length).length){
-        
+      if (Object.values(user).filter((data) => !data?.length).length) {
+        Object.keys(user).forEach((key: string) => {
+          // @ts-ignore
+          if (!user[key]) {
+            this.alertService
+              .open(`${key} is required`, {
+                label: 'Missing',
+                status: TuiNotification.Warning,
+                autoClose: 3500,
+                hasCloseButton: true,
+                hasIcon: true,
+              })
+              .subscribe();
+          }
+        });
         return;
       }
-      
-      await this.authProvider.signup(user, this.UserForm.get('remember')?.value as boolean).then(res => {
-        res.subscribe(loadingStatus => {
-          this.isLoading = loadingStatus;
-        })
-      })
+
+      await this.authProvider
+        .signup(user, this.UserForm.get('remember')?.value as boolean)
+        .then((res) => {
+          res.subscribe((loadingStatus) => {
+            this.isLoading = loadingStatus;
+          });
+        });
+    } else {
+      const user = {
+        email: this.UserForm.get('email')?.value as string,
+        password: this.UserForm.get('password')?.value as string,
+      };
+
+      if (Object.values(user).filter((data) => !data?.length).length) {
+        Object.keys(user).forEach((key: string) => {
+          // @ts-ignore
+          if (!user[key]) {
+            this.alertService
+              .open(`${key} is required`, {
+                label: 'Missing',
+                status: TuiNotification.Warning,
+                autoClose: 3500,
+                hasCloseButton: true,
+                hasIcon: true,
+              })
+              .subscribe();
+          }
+        });
+        return;
+      }
+
+      this.authProvider
+        .login(user, this.UserForm.get('remember')?.value as boolean)
+        .then((res) => {
+          res.subscribe((loadingStatus) => {
+            this.isLoading = loadingStatus;
+          });
+        });
     }
   }
 }

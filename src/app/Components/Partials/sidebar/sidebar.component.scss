@@ -1,9 +1,15 @@
 .sidebar{
-    background-color: skyblue ;
+    background-color: var(--tui-primary) ;
     padding: 20px;
     height: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    
+    width: max(100%, 250px);
+}
+header{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
 }
