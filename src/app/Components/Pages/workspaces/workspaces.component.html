@@ -1,0 +1,26 @@
+<div class="container-workspace">
+  <form [formGroup]="workspaceForm">
+    <div class="container-input">
+      <tui-input formControlName="name">
+        Workspace Name
+        <input type="text" tuiTextfield #inpWorkspace  />
+      </tui-input>
+      <button tuiButton appearance="secondary" (click)="addWorkspace()">Add</button>
+    </div>
+  </form>
+  <div class="container-workspaces">
+    <tui-elastic-container *ngFor="let workspace of workspaces" (click)="navigate(workspace.workspaceId)" >
+      <tui-island
+        [ngStyle]="{
+          backgroundColor: workspace.bgColor,
+          color: workspace.color
+        }"
+      >
+        <h3 class="tui-text_h3">{{ workspace.name }}</h3>
+        <p class="tui-text_body-l">
+          Task Count: {{ workspace.taskList.length }}
+        </p>
+      </tui-island>
+    </tui-elastic-container>
+  </div>
+</div>

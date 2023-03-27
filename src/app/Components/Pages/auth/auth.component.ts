@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { tuiPure } from '@taiga-ui/cdk';
 import {
   TuiAlertService,
@@ -20,6 +21,7 @@ export class AuthComponent {
   isLoading: boolean = false;
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private authProvider: AuthService,
     @Inject(TuiAlertService) private readonly alertService: TuiAlertService
@@ -71,8 +73,13 @@ export class AuthComponent {
         .then((res) => {
           res.subscribe((loadingStatus) => {
             this.isLoading = loadingStatus;
+            if(loadingStatus === false){
+              this.router.navigate(['/workspaces']);
+            }
           });
         });
+
+      this.router.navigate(['/workspaces']);
     } else {
       const user = {
         email: this.UserForm.get('email')?.value as string,
@@ -97,13 +104,17 @@ export class AuthComponent {
         return;
       }
 
-      this.authProvider
+      await this.authProvider
         .login(user, this.UserForm.get('remember')?.value as boolean)
         .then((res) => {
           res.subscribe((loadingStatus) => {
             this.isLoading = loadingStatus;
+            if(loadingStatus === false){
+              this.router.navigate(['/workspaces']);
+            }
           });
         });
+        
     }
   }
 }

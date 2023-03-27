@@ -1,0 +1,39 @@
+.container {
+  &-workspace {
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  &-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    tui-input {
+      width: min(100%, 500px);
+    }
+  }
+  &-workspaces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    tui-elastic-container {
+      flex: 1 1 300px;
+      cursor: pointer;
+      transition: all 300ms ease;
+      border-radius: 20px;
+      box-shadow: 5px 5px 10px -2px gray;
+      &:hover {
+        transform: translate(-5px, -5px);
+        box-shadow: 10px 10px 10px -2px gray;
+      }
+      tui-island {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        
+      }
+    }
+  }
+}
+

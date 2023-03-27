@@ -5,6 +5,7 @@ import {
   TuiAlertModule,
   TUI_SANITIZER,
   TuiButtonModule,
+  TuiLinkModule,
 } from '@taiga-ui/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -24,6 +25,7 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import {AuthService} from "./Shared/auth.service";
 import {HttpClientModule} from "@angular/common/http";
+import { PriorityDirective } from './Directives/priority.directive';
 
 @NgModule({
   declarations: [AppComponent, SidebarComponent, AuthComponent],
@@ -41,6 +43,7 @@ import {HttpClientModule} from "@angular/common/http";
     TuiInputPasswordModule,
     TuiCheckboxBlockModule,
     TuiToggleModule,
+    TuiLinkModule,
     FormsModule,
     ReactiveFormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),

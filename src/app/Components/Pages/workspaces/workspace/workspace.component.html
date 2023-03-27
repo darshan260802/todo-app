@@ -1,0 +1,32 @@
+<div class="container-workspace">
+  <form [formGroup]="todoForm">
+    <div class="container-input">
+      <tui-input formControlName="name">
+        Task
+        <input type="text" tuiTextfield #inpWorkspace />
+      </tui-input>
+      <button tuiButton appearance="secondary" (click)="addTodo()">Add</button>
+      <span>Priority: </span>
+      <label for="low"
+        ><div class="indic-low"></div>
+        Low</label
+      >
+      <label for="low"
+        ><div class="indic-medium"></div>
+        Medium</label
+      >
+      <label for="low"
+        ><div class="indic-high"></div>
+        High</label
+      >
+    </div>
+  </form>
+  <div class="container-tasks">
+    <tui-elastic-container *ngFor="let task of data.taskList">
+      <tui-island usePriority [priority]="task.priority">
+        <h3 class="tui-text_h3">{{ task.name }}</h3>
+        <span class="tui-text_body-l">Due : {{ task.dueDate | date }}</span>
+      </tui-island>
+    </tui-elastic-container>
+  </div>
+</div>

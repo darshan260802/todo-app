@@ -13,3 +13,14 @@ header{
     gap: 20px;
     color: white;
 }
+
+.navs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 10px;
+    [tuiLink]{
+        color: white;
+        
+    }
+}

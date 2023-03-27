@@ -49,8 +49,8 @@ export class AuthService {
   ): Promise<Observable<boolean>> {
     this.loading.next(true);
     await createUserWithEmailAndPassword(this.auth, email, password)
-      .then((response) => {
-        updateProfile(response.user, { displayName: name });
+      .then(async(response) => {
+        await updateProfile(response.user, { displayName: name });
         this.currentUser['uid'] = response.user.uid;
         this.currentUser['name'] = name ?? 'Guest';
         this.currentUser['email'] = email;
@@ -125,7 +125,7 @@ export class AuthService {
           this.loading.next(false);
         });
         this.alertService
-          .open(`Welcome Back ${name}`, {
+          .open(`Welcome Back ${this.currentUser.name}`, {
             label: 'Hurray',
             status: TuiNotification.Success,
             autoClose: 4000,
@@ -151,7 +151,7 @@ export class AuthService {
     return this.loading.asObservable();
   }
 
-  async tryAutoLogin() {
+  async tryAutoLogin() : Promise<boolean>{
     let flag = true;
     let authToken = localStorage.getItem('authToken');
     if (!authToken) {
