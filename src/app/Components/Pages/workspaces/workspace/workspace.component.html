@@ -1,4 +1,5 @@
 <div class="container-workspace">
+    <h1 class="tui-text_h5" [ngStyle]="{color: data.color, backgroundColor: data.bgColor}" >{{data.name }}</h1>
   <form [formGroup]="todoForm">
     <div class="container-input">
       <tui-input formControlName="name">
@@ -22,11 +23,43 @@
     </div>
   </form>
   <div class="container-tasks">
-    <tui-elastic-container *ngFor="let task of data.taskList">
-      <tui-island usePriority [priority]="task.priority">
+    <tui-elastic-container *ngFor="let task of data.taskList; let i = index">
+      <tui-island usePriority [priority]="task.priority" (click)="openTodo(test, i)" >
         <h3 class="tui-text_h3">{{ task.name }}</h3>
         <span class="tui-text_body-l">Due : {{ task.dueDate | date }}</span>
       </tui-island>
     </tui-elastic-container>
   </div>
 </div>
+
+<ng-template #test let-context >
+    <div class="container-dialog">
+        <ng-container *ngIf="!isEdit; else inputs">
+            <p class="tui-text_body-l">Due: {{currentTask.dueDate | date}}</p>
+            <p>Note: <br/>{{currentTask.note}}</p>
+            <p>Priority: {{currentTask.priority}}</p>
+        </ng-container>
+        <div class="container-actions">
+            <button tuiButton  *ngIf="isEdit" size="m" (click)="isEdit = true">Save</button>
+            <button tuiButton  size="m" (click)="isEdit = !isEdit">{{isEdit ? "Cancel" : "Edit"}}</button>
+            <button tuiButton  size="m" appearance="secondary-destructive" (click)="isEdit = true">Delete</button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #inputs >
+    <form [formGroup]="updateForm" >
+        <tui-input-date   formControlName="date">
+            Due Date
+            <input type="text"  tuiTextfield>
+        </tui-input-date>
+        <tui-text-area formControlName="note">
+            Note
+        </tui-text-area>
+        <tui-select formControlName="priority">
+            Priority    
+            <input type="text"tuiTextfield>
+            <tui-data-list-wrapper *tuiDataList [items]="['low', 'medium', 'high']" >
+            </tui-data-list-wrapper>
+        </tui-select>
+    </form>
+</ng-template>
