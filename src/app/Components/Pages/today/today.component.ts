@@ -40,7 +40,6 @@ export class TodayComponent {
       });
       this.taskList = tasks;
       this.schedule = this.getSchedule();
-      console.log(this.schedule);
     });
   }
 

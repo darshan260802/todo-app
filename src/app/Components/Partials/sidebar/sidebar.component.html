@@ -1,7 +1,6 @@
 <div class="sidebar">
   <header>
     <h1>Todo App</h1>
-    <hr />
   </header>
 
   <section  class="navs">
@@ -9,4 +8,7 @@
         <a tuiLink class="tui-text_body-xl" routerLink="/schedule" routerLinkActive="active"  icon="tuiIconClock" iconAlign="left" >Schedule</a>
         <a tuiLink class="tui-text_body-xl" routerLink="/today" routerLinkActive="active"  icon="tuiIconSunset" iconAlign="left" >Today</a>
   </section>
+  <footer>
+    <button (click)="logout()"  tuiButton size="m" appearance="accent">Logout</button>
+  </footer>
 </div>

@@ -23,6 +23,7 @@ const routes: Routes = [
         (module) => module.WorkspacesModule
       ),
     canLoad: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: 'schedule',
@@ -37,7 +38,7 @@ const routes: Routes = [
   {
     path: '**',
     pathMatch: 'full',
-    redirectTo: '',
+    redirectTo: 'workspaces',
   },
 ];
 

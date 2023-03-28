@@ -35,7 +35,6 @@ export class WorkspacesComponent {
     private fb: FormBuilder
   ) {
     workspaceService.getWorkspaces().subscribe((d: Workspace[]) => {
-      console.log(d, 'data');
       this.workspaces = d;
     });
   }
@@ -53,7 +52,6 @@ export class WorkspacesComponent {
     this.workspaceForm.get('name')?.reset();
   }
   navigate(...path: string[]): void {
-    console.log('dd', path);
     this.router.navigate(path, { relativeTo: this.route });
   }
 }

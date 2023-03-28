@@ -95,10 +95,10 @@ export class AuthService {
           })
           .subscribe();
 
-        this.loading.next(false);
-      });
-
-    return this.loading.asObservable();
+          this.loading.next(false);
+        });
+        
+        return this.loading.asObservable();
   }
   async login(
     { email, password }: User,
@@ -177,5 +177,15 @@ export class AuthService {
 
   getUser(): SavedUser {
     return { ...this.currentUser };
+  }
+
+  logout():void{
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('authToken');
+    this.currentUser = {
+      uid: '',
+      name: '',
+      email: '',
+    };
   }
 }

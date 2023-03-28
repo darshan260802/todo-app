@@ -68,6 +68,7 @@ export class AuthComponent {
         return;
       }
 
+      this.isLoading = true
       await this.authProvider
         .signup(user, this.UserForm.get('remember')?.value as boolean)
         .then((res) => {
@@ -104,6 +105,7 @@ export class AuthComponent {
         return;
       }
 
+      this.isLoading = true
       await this.authProvider
         .login(user, this.UserForm.get('remember')?.value as boolean)
         .then((res) => {

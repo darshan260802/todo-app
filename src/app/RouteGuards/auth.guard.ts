@@ -43,6 +43,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   async canLoad(route: Route, state: UrlSegment[]): Promise<boolean> {
     
+    
     if (this.authService.getUser().uid) {
       return true;
     }

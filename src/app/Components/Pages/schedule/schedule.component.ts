@@ -33,7 +33,6 @@ export class ScheduleComponent {
         name: ws.name,
       }));
       this.todoForm.get('workspaceId')?.setValue(this.workspaces[0].name);
-      console.log(this.workspaces);
     });
     wsService.getAllTasks().subscribe((tasks: Task[]) => {
       tasks.sort((a, b) => {
