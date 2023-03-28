@@ -164,11 +164,14 @@ export class AuthService {
       token: authToken,
       secret: this.JWT_SECRET,
     };
-    this.http.post(this.BASE_URL + '/decrypt', body).subscribe((res) => {
-      this.currentUser['uid'] = (res as SavedUser).uid;
-      this.currentUser['name'] = (res as SavedUser).name;
-      this.currentUser['email'] = (res as SavedUser).email;
-    });
+    await new Promise<void>((resolve, reject) => {
+      this.http.post(this.BASE_URL + '/decrypt', body).subscribe((res) => {
+        this.currentUser['uid'] = (res as SavedUser).uid;
+        this.currentUser['name'] = (res as SavedUser).name;
+        this.currentUser['email'] = (res as SavedUser).email;
+        resolve()
+      });
+    })
     return flag;
   }
 

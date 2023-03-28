@@ -10,8 +10,10 @@ import {
   Firestore,
   updateDoc,
   arrayUnion,
+  where,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 interface workspaceColor {
   text: string;
   bg: string;
@@ -72,7 +74,7 @@ export class WorkspaceService {
     },
   ];
 
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore, private authService:AuthService) {}
 
   async createWorkspace(workspaceName: string): Promise<string> {
     const workspaces = collection(this.firestore, 'workspaces');
@@ -83,6 +85,7 @@ export class WorkspaceService {
       createdAt: new Date().getTime(),
       bgColor: selectedColor.bg,
       color: selectedColor.text,
+      userId: this.authService.getUser().uid,
     };
     const workspaceId = await addDoc(workspaces, body)
       .then((res) => res.id)
@@ -91,8 +94,11 @@ export class WorkspaceService {
   }
 
   getWorkspaces(): Observable<any> {
+    console.log('gws',this.authService.getUser().uid);
+    
     const workspaces = query(
       collection(this.firestore, 'workspaces'),
+      where('userId', '==', this.authService.getUser().uid),
       orderBy('createdAt')
     );
 

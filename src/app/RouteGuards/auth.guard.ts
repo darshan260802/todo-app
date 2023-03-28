@@ -22,7 +22,8 @@ export class AuthGuard implements CanActivate, CanLoad {
     state: RouterStateSnapshot
   ): Promise<boolean> {
     if (route.routeConfig?.path === 'auth') {
-      if (this.authService.getUser().uid) {
+      
+      if (this.authService.getUser().uid ) {
         this.router.navigate(['/workspaces']);
       }
       return true;
@@ -41,11 +42,13 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   async canLoad(route: Route, state: UrlSegment[]): Promise<boolean> {
+    
     if (this.authService.getUser().uid) {
       return true;
     }
-
+    
     if (await this.authService.tryAutoLogin()) {
+      console.log('load', this.authService.getUser().uid);
       return true;
     }
 
