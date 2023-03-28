@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './Components/Pages/auth/auth.component';
+import { ScheduleComponent } from './Components/Pages/schedule/schedule.component';
 import { AuthGuard } from './RouteGuards/auth.guard';
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'workspaces',
@@ -20,7 +21,12 @@ const routes: Routes = [
       import('./Components/Pages/workspaces/workspaces.module').then(
         (module) => module.WorkspacesModule
       ),
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+  },
+  {
+    path: 'schedule',
+    component: ScheduleComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

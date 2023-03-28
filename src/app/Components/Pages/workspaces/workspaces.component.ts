@@ -7,13 +7,14 @@ export interface Workspace {
   workspaceId: string;
   createdAt: string;
   name: string;
-  taskList: Task[];
   bgColor: string;
   color: string;
+  userId: string
 }
 export interface Task{
   createdAt: number | string;
   workspaceId: string;
+  taskId: string
   name: string;
   dueDate: string;
   note: string;
@@ -53,7 +54,6 @@ export class WorkspacesComponent {
   }
   navigate(...path: string[]): void {
     console.log('dd', path);
-
     this.router.navigate(path, { relativeTo: this.route });
   }
 }

@@ -26,9 +26,10 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import {AuthService} from "./Shared/auth.service";
 import {HttpClientModule} from "@angular/common/http";
 import { PriorityDirective } from './Directives/priority.directive';
+import { ScheduleComponent } from './Components/Pages/schedule/schedule.component';
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent, AuthComponent],
+  declarations: [AppComponent, SidebarComponent, AuthComponent, ScheduleComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

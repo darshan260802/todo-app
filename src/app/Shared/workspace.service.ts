@@ -11,8 +11,10 @@ import {
   updateDoc,
   arrayUnion,
   where,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { Task } from '../Components/Pages/workspaces/workspaces.component';
 import { AuthService } from './auth.service';
 interface workspaceColor {
   text: string;
@@ -81,7 +83,6 @@ export class WorkspaceService {
     const selectedColor = this.colors[Math.floor(Math.random() * 12)];
     const body = {
       name: workspaceName,
-      taskList: [],
       createdAt: new Date().getTime(),
       bgColor: selectedColor.bg,
       color: selectedColor.text,
@@ -112,10 +113,11 @@ export class WorkspaceService {
     return docData(workspace, { idField: 'workspaceId' });
   }
 
-  async createTodo(workspaceId: string, todoName: string): Promise<string> {
-    const workspace = doc(this.firestore, 'workspaces', workspaceId);
+  async createTodo(workspaceId: string, todoName: string): Promise<void> {
+    const taskList = collection(this.firestore, 'taskList');
     const todo = {
       workspaceId: workspaceId,
+      userId: this.authService.getUser().uid,
       createdAt: new Date().getTime(),
       name: todoName,
       note: '',
@@ -123,9 +125,26 @@ export class WorkspaceService {
       dueDate: new Date().toDateString(),
     };
 
-    await updateDoc(workspace, { taskList: arrayUnion(todo) });
+    await addDoc(taskList, todo);
+  }
+  
+  getTasks(workspaceId:string):Observable<any>{
+    const list = query(
+      collection(this.firestore, 'taskList'),
+      where('workspaceId' , '==', workspaceId),
+      where('userId' , '==', this.authService.getUser().uid),
+      orderBy('createdAt')
+    );
+    return collectionData(list, {idField:'taskId'});
+  }
 
-    return '';
+  async deleteTodo(taskId:string): Promise<void>{
+    const task = doc(this.firestore, 'taskList', taskId);
+    await deleteDoc(task);
+  }
+  async updateTask( taskId:string, newData:Task): Promise<void>{
+    const task = doc(this.firestore, 'taskList', taskId);
+    await updateDoc(task, {...newData});
   }
 }
 

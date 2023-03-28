@@ -48,7 +48,6 @@ export class AuthGuard implements CanActivate, CanLoad {
     }
     
     if (await this.authService.tryAutoLogin()) {
-      console.log('load', this.authService.getUser().uid);
       return true;
     }
 

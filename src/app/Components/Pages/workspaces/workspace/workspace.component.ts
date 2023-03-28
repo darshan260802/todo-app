@@ -14,13 +14,14 @@ import { TuiDay } from '@taiga-ui/cdk';
 })
 export class WorkspaceComponent {
   workspaceId: string = '';
-  data: Workspace = {
+  taskList:Task[] = []
+  workspace: Workspace = {
     workspaceId: '',
     createdAt: '',
     name: '',
-    taskList: [],
     bgColor: '',
     color: '',
+    userId:''
   };
   currentTask!: Task;
   isEdit: boolean = false;
@@ -36,8 +37,12 @@ export class WorkspaceComponent {
       wsService
         .getWorkspace(this.workspaceId)
         .subscribe((workspace: Workspace) => {
-          this.data = workspace;
+          this.workspace = workspace;
+          wsService.getTasks(workspace.workspaceId).subscribe((tasks: Task[]) =>{
+            this.taskList = tasks;
+          })
         });
+
     });
   }
 
@@ -46,7 +51,7 @@ export class WorkspaceComponent {
   });
 
   updateForm = this.fb.group({
-    date: new FormControl(new TuiDay(0,0,0)),
+    date: new FormControl(new TuiDay(2023,2,28)),
     note: new FormControl(''),
     priority: new FormControl('')
   })
@@ -56,18 +61,29 @@ export class WorkspaceComponent {
     if (!wsName) {
       return;
     }
-    console.log('heavy', this.data);
-
-    await this.wsService.createTodo(this.data.workspaceId, wsName);
+    this.todoForm.reset();
+    await this.wsService.createTodo(this.workspace.workspaceId, wsName);
   }
 
-  async deleteTodo(){
-    
+  async deleteTodo(context:TuiDialogContext){
+    await this.wsService.deleteTodo(this.currentTask.taskId);
+    // @ts-ignore
+    context.complete();
   }
+
+  async updateTodo(){
+    let dt = this.updateForm.get('date')?.value as TuiDay
+    this.currentTask['dueDate'] = new Date(dt.year, dt.month, dt.day).toDateString();
+    this.currentTask['note'] = this.updateForm.get('note')?.value ?? '';
+    this.currentTask['priority'] = this.updateForm.get('priority')?.value as ('low'| 'medium' | 'high') ?? this.currentTask['priority'];
+    await this.wsService.updateTask(this.currentTask.taskId, this.currentTask);
+    this.isEdit = false;
+  }
+
 
 
   openTodo(content: PolymorpheusContent<TuiDialogContext>, index: number) {
-    this.currentTask = { ...this.data?.taskList[index] };
+    this.currentTask = { ...this.taskList[index] };
     const d = new Date(this.currentTask.dueDate);
 
     this.updateForm.setValue({
@@ -82,11 +98,8 @@ export class WorkspaceComponent {
           this.isEdit = false;
           let dt = this.updateForm.get('date')?.value as TuiDay
           console.log(new Date(dt.year, dt.month, dt.day).toDateString());
-          
         },
       });
   }
-  log(d: any) {
-    console.log(d);
-  }
+
 }

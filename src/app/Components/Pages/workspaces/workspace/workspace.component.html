@@ -1,5 +1,5 @@
 <div class="container-workspace">
-    <h1 class="tui-text_h5" [ngStyle]="{color: data.color, backgroundColor: data.bgColor}" >{{data.name }}</h1>
+    <h1 class="tui-text_h5" [ngStyle]="{color: workspace.color, backgroundColor: workspace.bgColor}" >{{workspace.name }}</h1>
   <form [formGroup]="todoForm">
     <div class="container-input">
       <tui-input formControlName="name">
@@ -23,7 +23,7 @@
     </div>
   </form>
   <div class="container-tasks">
-    <tui-elastic-container *ngFor="let task of data.taskList; let i = index">
+    <tui-elastic-container *ngFor="let task of taskList; let i = index">
       <tui-island usePriority [priority]="task.priority" (click)="openTodo(test, i)" >
         <h3 class="tui-text_h3">{{ task.name }}</h3>
         <span class="tui-text_body-l">Due : {{ task.dueDate | date }}</span>
@@ -40,9 +40,9 @@
             <p>Priority: {{currentTask.priority}}</p>
         </ng-container>
         <div class="container-actions">
-            <button tuiButton  *ngIf="isEdit" size="m" (click)="isEdit = true">Save</button>
+            <button tuiButton  *ngIf="isEdit" size="m" (click)="updateTodo()">Save</button>
             <button tuiButton  size="m" (click)="isEdit = !isEdit">{{isEdit ? "Cancel" : "Edit"}}</button>
-            <button tuiButton  size="m" appearance="secondary-destructive" (click)="isEdit = true">Delete</button>
+            <button tuiButton  size="m" appearance="secondary-destructive" (click)="deleteTodo(context)">Delete</button>
         </div>
     </div>
 </ng-template>
