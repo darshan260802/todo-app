@@ -14,10 +14,10 @@ import { PriorityDirective } from 'src/app/Directives/priority.directive';
   declarations: [
     WorkspacesComponent,
     WorkspaceComponent,
-    PriorityDirective
   ],
   imports: [
     CommonModule,
+    PriorityDirective,
     FormsModule,
     ReactiveFormsModule,
     WorkspacesRoutingModule,
@@ -31,6 +31,7 @@ import { PriorityDirective } from 'src/app/Directives/priority.directive';
     TuiSelectModule,
     TuiDataListWrapperModule
     
-  ]
+  ],
+
 })
 export class WorkspacesModule { }

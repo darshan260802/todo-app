@@ -96,8 +96,6 @@ export class WorkspaceComponent {
       .subscribe({
         complete: () => {
           this.isEdit = false;
-          let dt = this.updateForm.get('date')?.value as TuiDay
-          console.log(new Date(dt.year, dt.month, dt.day).toDateString());
         },
       });
   }

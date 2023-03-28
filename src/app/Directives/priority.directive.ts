@@ -9,6 +9,7 @@ import {
 
 @Directive({
   selector: '[usePriority]',
+  standalone: true
 })
 export class PriorityDirective implements OnChanges {
   @Input() priority: 'low' | 'medium' | 'high' = 'low';

@@ -1,0 +1,69 @@
+.container {
+    &-workspace {
+      padding: 20px 10px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      h1 {
+        width: fit-content;
+        padding: 5px 10px;
+        border: 0;
+        border-radius: 8px;
+      }
+    }
+    &-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      tui-input {
+        width: min(100%, 500px);
+      }
+    }
+    &-tasks {
+        display: flex;
+        overflow-y: auto;
+        height: 100%;
+        flex-wrap: wrap;
+        gap: 10px;
+        tui-elastic-container {
+          flex: 1 1 300px;
+          cursor: pointer;
+          tui-island {
+            border: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+        }
+      }
+  }
+  label {
+    display: flex;
+    gap: 5px;
+    div {
+      height: 20px;
+      aspect-ratio: 1;
+    }
+    .indic-low {
+      background-color: green;
+    }
+    .indic-medium {
+      background-color: gold;
+    }
+    .indic-high {
+      background-color: red;
+    }
+  }
+  
+  .container-dialog,
+  .container-dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .container-actions {
+    display: flex;
+    gap: 10px;
+  }
+  

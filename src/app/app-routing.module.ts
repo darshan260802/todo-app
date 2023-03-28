@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './Components/Pages/auth/auth.component';
 import { ScheduleComponent } from './Components/Pages/schedule/schedule.component';
+import { TodayComponent } from './Components/Pages/today/today.component';
 import { AuthGuard } from './RouteGuards/auth.guard';
 
 const routes: Routes = [
@@ -26,6 +27,11 @@ const routes: Routes = [
   {
     path: 'schedule',
     component: ScheduleComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'today',
+    component: TodayComponent,
     canActivate: [AuthGuard],
   },
   {

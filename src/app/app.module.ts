@@ -25,11 +25,11 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import {AuthService} from "./Shared/auth.service";
 import {HttpClientModule} from "@angular/common/http";
-import { PriorityDirective } from './Directives/priority.directive';
-import { ScheduleComponent } from './Components/Pages/schedule/schedule.component';
+import { ScheduleModule } from './Components/Pages/schedule/schedule.module';
+import { TodayModule } from './Components/Pages/today/today.module';
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent, AuthComponent, ScheduleComponent],
+  declarations: [AppComponent, SidebarComponent, AuthComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -50,7 +50,9 @@ import { ScheduleComponent } from './Components/Pages/schedule/schedule.componen
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    HttpClientModule
+    HttpClientModule,
+    ScheduleModule,
+    TodayModule
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }, AuthService],
   bootstrap: [AppComponent],

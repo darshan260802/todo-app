@@ -1,0 +1,82 @@
+<div class="container-workspace">
+    <form [formGroup]="todoForm">
+      <div class="container-input">
+        <tui-input formControlName="name" [readOnly]="!workspaces.length">
+          Task
+          <input type="text" tuiTextfield #inpWorkspace />
+        </tui-input>
+        <tui-select  formControlName="workspaceId" [readOnly]="!workspaces.length">
+          Workspace
+          <input type="text"tuiTextfield/>
+          <tui-data-list-wrapper *tuiDataList [items]="getWorkspaceNames()">
+  
+          </tui-data-list-wrapper>
+        </tui-select>
+        <button tuiButton appearance="secondary" [disabled]="!workspaces.length" (click)="addTodo()">Add</button>
+        <span>Priority: </span>
+        <label for="low"
+          ><div class="indic-low"></div>
+          Low</label
+        >
+        <label for="medium"
+          ><div class="indic-medium"></div>
+          Medium</label
+        >
+        <label for="high"
+          ><div class="indic-high"></div>
+          High</label
+        >
+      </div>
+    </form>
+    <div class="container-tasks">
+        <tui-elastic-container *ngFor="let task of schedule; let i = index">
+            <tui-island usePriority [priority]="task.priority" (click)="openTodo(test, i)" >
+              <h3 class="tui-text_h3">{{ task.name }}</h3>
+              <span class="tui-text_body-l">Workspace : {{ getWorkspaceName(task.workspaceId) }}</span>
+            </tui-island>
+          </tui-elastic-container>
+    </div>
+    
+  </div>
+  
+  <ng-template #test let-context>
+    <div class="container-dialog">
+      <ng-container *ngIf="!isEdit; else inputs">
+        <p class="tui-text_body-l">Due: {{ currentTask.dueDate | date }}</p>
+        <p>Note: <br />{{ currentTask.note }}</p>
+        <p>Priority: {{ currentTask.priority }}</p>
+      </ng-container>
+      <div class="container-actions">
+        <button tuiButton *ngIf="isEdit" size="m" (click)="updateTodo()">
+          Save
+        </button>
+        <button tuiButton size="m" (click)="isEdit = !isEdit">
+          {{ isEdit ? "Cancel" : "Edit" }}
+        </button>
+        <button
+          tuiButton
+          size="m"
+          appearance="secondary-destructive"
+          (click)="deleteTodo(context)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #inputs>
+    <form [formGroup]="updateForm">
+      <tui-input-date formControlName="date">
+        Due Date
+        <input type="text" tuiTextfield />
+      </tui-input-date>
+      <tui-text-area formControlName="note"> Note </tui-text-area>
+      <tui-select formControlName="priority">
+        Priority
+        <input type="text" tuiTextfield />
+        <tui-data-list-wrapper *tuiDataList [items]="['low', 'medium', 'high']">
+        </tui-data-list-wrapper>
+      </tui-select>
+    </form>
+  </ng-template>
+  

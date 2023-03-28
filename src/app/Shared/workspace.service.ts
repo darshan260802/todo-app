@@ -12,9 +12,10 @@ import {
   arrayUnion,
   where,
   deleteDoc,
+  DocumentData,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Task } from '../Components/Pages/workspaces/workspaces.component';
+import { Task, Workspace } from '../Components/Pages/workspaces/workspaces.component';
 import { AuthService } from './auth.service';
 interface workspaceColor {
   text: string;
@@ -95,8 +96,6 @@ export class WorkspaceService {
   }
 
   getWorkspaces(): Observable<any> {
-    console.log('gws',this.authService.getUser().uid);
-    
     const workspaces = query(
       collection(this.firestore, 'workspaces'),
       where('userId', '==', this.authService.getUser().uid),
@@ -112,6 +111,7 @@ export class WorkspaceService {
     const workspace = doc(this.firestore, 'workspaces', workspaceId);
     return docData(workspace, { idField: 'workspaceId' });
   }
+  
 
   async createTodo(workspaceId: string, todoName: string): Promise<void> {
     const taskList = collection(this.firestore, 'taskList');
@@ -137,6 +137,15 @@ export class WorkspaceService {
     );
     return collectionData(list, {idField:'taskId'});
   }
+  getAllTasks():Observable<any>{
+    const list = query(
+      collection(this.firestore, 'taskList'),
+      where('userId' , '==', this.authService.getUser().uid),
+      orderBy('createdAt')
+    );
+    return collectionData(list, {idField:'taskId'});
+  }
+  
 
   async deleteTodo(taskId:string): Promise<void>{
     const task = doc(this.firestore, 'taskList', taskId);
