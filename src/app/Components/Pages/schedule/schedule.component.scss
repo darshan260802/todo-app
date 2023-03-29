@@ -37,7 +37,7 @@
     flex-wrap: wrap;
     gap: 10px;
     tui-elastic-container {
-      flex: 1 1 300px;
+      flex: 1 1 max-content;
       cursor: pointer;
       tui-island {
         border: 0;
